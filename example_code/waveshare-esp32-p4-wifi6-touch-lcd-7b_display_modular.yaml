@@ -12,6 +12,7 @@ substitutions:
   label_on_color: "white"
   label_off_color: "gray"
   button_text_color: "white"
+  
   # LCD back light modes - Code in backlight_time.yaml
   # Set Day mode - starts at Sunrise - screen at 100%
   touchscreen_daytime_brightness: "100%"
@@ -22,13 +23,6 @@ substitutions:
   touchscreen_night_minute: "0"    # Minute for night mode (0-59)
   # Set touchscreen idle timeout - In night mode back light goes off after this amount of time
   touchscreen_idle_timeout: "60s"
-
-  # LCD backlight modes - Code in backlight.yaml
-  # Day mode is set to Sunrise
-  # Evening mode is set to sunset
-  # Set Night mode  at Midnight here
-  screen_night_hour: '0'
-  screen_night_minute: '0'
 
 esphome:
   name: "waveshare-touch-lcd-7b"

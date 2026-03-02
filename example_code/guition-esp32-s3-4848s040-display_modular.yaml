@@ -22,7 +22,8 @@ substitutions:
   touchscreen_night_hour: "0"      # Hour for night mode (0-23)
   touchscreen_night_minute: "0"    # Minute for night mode (0-59)
   # Set touchscreen idle timeout - In night mode back light goes off after this amount of time
-  touchscreen_idle_timeout: "60s"
+  touchscreen_idle_timeout: "5s"
+  touchscreen_idle_timeout_always_on: "true"
 
 esphome:
   name: "guition-4848s040"
