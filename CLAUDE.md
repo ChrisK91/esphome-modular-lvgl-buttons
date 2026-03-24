@@ -49,6 +49,54 @@ esphome config example_code/SDL-lvgl-display_modular_480px.yaml
 
 Read **LVGL_REFERENCE.md** for critical LVGL v8 behavior — especially image tiling, layout override rules, and the obj wrapper pattern for images.
 
+## ESPHome Jinja/Substitutions
+
+ESPHome uses Jinja2 but with **different delimiters** than standard Jinja. Getting this wrong produces broken YAML.
+
+### Expression Syntax
+- ESPHome uses `${...}` instead of `{{ ... }}` for expressions
+- **`{% if %}` / `{% else %}` blocks are NOT supported** — use inline ternary instead
+
+### Inline Ternary (the correct way)
+```yaml
+bg_color: ${"gray200" if style | default("black") == "white" else "gray900"}
+text_color: ${"gray900" if style | default("black") == "white" else "gray400"}
+width: ${native_width * 2 if high_dpi else native_width}
+hidden: ${not debug_label.enabled}
+```
+
+### Variable Access
+- Simple: `$var` or `${var}`
+- Dict member: `${device.name}` or `${device["name"]}`
+- List index: `${unused_pins[2]}`
+
+### !include vars with defaults
+Variables passed via `vars:` in `!include` are accessed directly by name. Use `| default()` for fallbacks:
+```yaml
+# In the including file:
+button: !include
+  file: widgets/flip_clock.yaml
+  vars:
+    uid: button_2
+    style: white
+
+# In the included file:
+bg_color: ${"gray200" if style | default("black") == "white" else "gray900"}
+```
+
+### Available Filters & Functions
+- Jinja filters: `| round`, `| int`, `| default()`, `| upper`, `| lower`
+- Python `math` module: `${math.sqrt(x*x+y*y)}`
+- Built-ins: `ord()`, `chr()`, `len()`
+
+### Disable Substitution
+Use `!literal` tag to prevent variable expansion:
+```yaml
+text: !literal "This is a ${value}"  # outputs literally: This is a ${value}
+```
+
+Reference: https://esphome.io/components/substitutions/
+
 ## Known Issues
 
 - `shadow_width: 0` must be explicitly set in theme despite LVGL default

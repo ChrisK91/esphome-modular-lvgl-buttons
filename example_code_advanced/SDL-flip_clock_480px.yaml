@@ -103,6 +103,7 @@ packages:
       column: 2
       font_size: 75
       click_page: info_screen
+      style: white
       
   # Add a button that displays the time
   button_3: !include
