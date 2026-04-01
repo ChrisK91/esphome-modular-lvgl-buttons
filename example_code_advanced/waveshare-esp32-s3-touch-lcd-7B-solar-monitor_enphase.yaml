@@ -1,24 +1,14 @@
+---
 # Substitution variables used through the codebase
 substitutions:
   envoy_id: !secret envoy_id
   enpower_id: !secret enpower_id
   weather_id: weather.home
 
-  lightbulb:         "\U000F0335"
-  ceiling_light:     "\U000F0769"
-  lamp:              "\U000F06B5"
-  floor_lamp:        "\U000F08DD"
-  string_lights:     "\U000F12BA"
-  track_light:       "\U000F0914"
-  bulkhead_light:    "\U000F1A2F"
-  led_strip:         "\U000F07D6"
-  coach_lamp:        "\U000F1020"
-  ceiling_fan_light: "\U000F1798"
-  bed:               "\U000F02E3"
-
-  icon_font: light40
-  text_font: nunito_24
-  text_color: black
+  icon_font: mdi_icons_40
+  text_font: nunito_20
+  text_color: white
+  bg_color: black
   button_on_color: "ep_orange"
   button_off_color: "very_dark_gray"
   icon_on_color: "yellow"
@@ -26,36 +16,27 @@ substitutions:
   label_on_color: "white"
   label_off_color: "gray"
   button_text_color: "white"
-  button_height_single: '109px'
-  button_height_double: '228px'
-  button_width: '150px'
-  touchscreen_idle_timeout: "30s"
-  touchscreen_daytime_brightness: "100%"
-  touchscreen_nighttime_brightness: "85%"
-  # Boot screen configuration
-  boot_screen_delay: 60s
 
-  # LCD backlight modes - Code in backlight.yaml
-  # Day mode is set to Sunrise
-  # Evening mode is set to sunset
-  # Set Night mode to Mightnight here
-  screen_night_hour: '0'
-  screen_night_minute: '0'
-
-  # Set Day mode at 5:30am
-  screen_day_hour: '5'
-  screen_day_minute: '30'
+  # LCD back light modes - Code in backlight_time.yaml
+  display_daytime_brightness: "100%"
+  display_nighttime_brightness: "50%"
+  display_night_hour: "0"      # Hour for night mode (0-23)
+  display_night_minute: "0"    # Minute for night mode (0-59)
+  display_backlight_timeout_always_enabled: "false"  # Set true to dim/off in all modes, not just Night
+  display_backlight_timeout_initial: "5"  # Initial backlight timeout in minutes (-1 to disable)
 
   # Screen Size
-  screen_height: '600'
-  screen_width: '1024'
+  screen_height: 600
+  screen_width: 1024
 
 esphome:
   name: "solar-monitor"
   friendly_name: "Solar Monitor"
   comment: "Enphase solar monitor"
-  
-api:
+  on_boot:
+  - priority: 400
+    then:
+      - script.execute: update_loading_page
 
 logger:
 #  level: info
@@ -91,22 +72,27 @@ script:
 
 packages:
   # Generic configuration for ESP32 screens
+  # SDL has no Wi-Fi
+  wifi: !include esphome-modular-lvgl-buttons/common/wifi.yaml
+  # Enable OTA updates with a status screen
+  ota_screen: !include esphome-modular-lvgl-buttons/common/ota.yaml
   # All the colors
   colors: !include esphome-modular-lvgl-buttons/common/color.yaml
-  # Fonts you need
+  # Some nice basic fonts
   fonts: !include esphome-modular-lvgl-buttons/common/fonts.yaml
   # 1000s of glyphs
   glyphs: !include esphome-modular-lvgl-buttons/common/mdi_glyph_substitutions.yaml
   # Some basic sensors
-  sensors: !include esphome-modular-lvgl-buttons/sensors/sensors_base-SDL.yaml
-  # Get the time from HA
-  time: !include esphome-modular-lvgl-buttons/common/time_homeassistant.yaml
+  sensors: !include esphome-modular-lvgl-buttons/sensors/sensors_base.yaml
   # Styles + Themes
   theme_style: !include esphome-modular-lvgl-buttons/common/theme_style.yaml
+  # Use this theme for debugging
   # theme_style: !include esphome-modular-lvgl-buttons/common/theme_style_debug.yaml
+  # Include if your touch screen has a backlight. Also sets the time from HA
+  backlight: !include esphome-modular-lvgl-buttons/common/backlight_time.yaml
 
   # Hardware description file
-  hardware: !include esphome-modular-lvgl-buttons/hardware/SDL-lvgl.yaml
+  hardware: !include esphome-modular-lvgl-buttons/hardware/waveshare-esp32-s3-touch-lcd-7B.yaml
 
   # Basic boot screen with ESPHome logo and device diagnostic info
   loading_screen: !include esphome-modular-lvgl-buttons/pages/loading.yaml
@@ -121,6 +107,7 @@ packages:
   update_solar_today: !include esphome-modular-lvgl-buttons/solar/update_solar_today.yaml
   # Fetch realtime solar power data from HA
   update_solar_realtime: !include esphome-modular-lvgl-buttons/solar/update_solar_realtime.yaml
+
 
 # Nice little box with a boder and shadow. 
 .shadow_box_styles:
