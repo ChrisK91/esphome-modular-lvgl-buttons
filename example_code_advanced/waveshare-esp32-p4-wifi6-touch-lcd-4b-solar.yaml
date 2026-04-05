@@ -94,7 +94,7 @@ packages:
 
   # Row 0 — Solar Now | Time
   btn_solar_now: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: solar_now
       sensor_id: sensor_solar_power
@@ -106,7 +106,7 @@ packages:
       sensor_font: $sensor_font
 
   btn_time: !include
-    file: esphome-modular-lvgl-buttons/buttons/time_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/time_button_legacy.yaml
     vars:
       uid: time_btn
       row: 0
@@ -116,7 +116,7 @@ packages:
 
   # Row 1 — Yield Today | Home Usage
   btn_yield_today: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: yield_today
       sensor_id: sensor_yield_today
@@ -128,7 +128,7 @@ packages:
       sensor_font: $sensor_font
 
   btn_load_now: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: load_now
       sensor_id: sensor_load_power
@@ -141,7 +141,7 @@ packages:
 
   # Row 2 — Grid Export | Grid Import (today kWh)
   btn_grid_export: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: grid_export
       sensor_id: sensor_export_today
@@ -153,7 +153,7 @@ packages:
       sensor_font: $sensor_font
 
   btn_grid_import: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: grid_import
       sensor_id: sensor_import_today
@@ -167,7 +167,7 @@ packages:
   # Row 3 — Battery SoC | Info
   # Remove btn_battery if you don't have a Sungrow battery
   btn_battery: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: battery_soc
       sensor_id: sensor_battery_soc
@@ -179,7 +179,7 @@ packages:
       sensor_font: $sensor_font
 
   btn_info: !include
-    file: esphome-modular-lvgl-buttons/buttons/page_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/page_button_legacy.yaml
     vars:
       uid: info_btn
       row: 3

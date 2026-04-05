@@ -96,7 +96,7 @@ packages:
 
   # Add a button that displays the time
   button_1: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: button_1
       row: 0
@@ -108,7 +108,7 @@ packages:
       sensor_font: nunito_24
 
   button_3: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: button_3
       row: 1
@@ -120,7 +120,7 @@ packages:
       sensor_font: nunito_24
 
   button_4: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: button_4
       row: 2
@@ -132,7 +132,7 @@ packages:
       sensor_font: nunito_24
 
   button_5: !include
-    file: esphome-modular-lvgl-buttons/buttons/sensor_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/sensor_button_legacy.yaml
     vars:
       uid: button_5
       row: 3
@@ -145,7 +145,7 @@ packages:
 
   # Add a button that displays the time
   button_2: !include
-    file: esphome-modular-lvgl-buttons/buttons/time_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/time_button_legacy.yaml
     vars:
       uid: button_2
       row: 0

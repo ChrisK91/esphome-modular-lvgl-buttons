@@ -85,7 +85,7 @@ packages:
 
   # Add a button the controls a light in HA
   button_1: !include
-    file: esphome-modular-lvgl-buttons/buttons/switch_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/switch_button_legacy.yaml
     vars:
       uid: button_1
       row: 0
@@ -107,7 +107,7 @@ packages:
       
   # Add a button that displays the time
   button_3: !include
-    file: esphome-modular-lvgl-buttons/buttons/time_button.yaml
+    file: esphome-modular-lvgl-buttons/buttons/time_button_legacy.yaml
     vars:
       uid: button_3
       row: 1
