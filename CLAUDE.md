@@ -1,8 +1,5 @@
-# CLAUDE.md — esphome-modular-lvgl-buttons (fork)
+# CLAUDE.md — esphome-modular-lvgl-buttons
 
-## What This Fork Is
-
-A fork of [agillis/esphome-modular-lvgl-buttons](https://github.com/agillis/esphome-modular-lvgl-buttons). The upstream flat `buttons/` components are being **fully replaced** with a new, systematic architecture under `ui/`. The upstream infrastructure (`common/`, `hardware/`) is reused unchanged.
 
 ---
 
@@ -174,6 +171,14 @@ Never declared by the user — always detected at runtime:
 8. Tile layout is consistent across all types: icon top-left, label bottom-left, optional inline control top-right, short-click = primary action, long-press = detail page (complex types only)
 
 ---
+
+## ESPHome Jinja/Substitutions
+
+ESPHome uses Jinja2 but with **different delimiters** than standard Jinja. Getting this wrong produces broken YAML.
+
+### Expression Syntax
+- ESPHome uses `${...}` instead of `{{ ... }}` for expressions
+- **`{% if %}` / `{% else %}` blocks are NOT supported** — use inline ternary instead
 
 ## Conventions
 

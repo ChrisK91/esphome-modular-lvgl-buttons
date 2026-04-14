@@ -1,4 +1,4 @@
-# ARCHITECTURE.md — esphome-modular-lvgl-buttons (fork)
+# ARCHITECTURE.md — esphome-modular-lvgl-buttons
 
 > For AI assistant rules and coding conventions, see [CLAUDE.md](CLAUDE.md). For end-user setup, see [README.md](README.md).
 
@@ -26,7 +26,7 @@ esphome-modular-lvgl-buttons/
 │   ├── weather/              #   today.yaml, forecast.yaml, assets/
 │   ├── solar/                #   solar monitoring integration
 │   └── tides/                #   NOAA tide clock (tide_update.yaml, NOAA_tide_update.yaml)
-├── pages/                    # Global UI pages (upstream, untouched)
+├── pages/                    # Global UI pages
 │   ├── loading.yaml          #   Boot screen with HA connection status
 │   └── info.yaml             #   System info: IP, MAC, WiFi, ESPHome version
 ├── common/                   # Shared infrastructure
@@ -63,7 +63,10 @@ The entire library is built on ESPHome's `packages:` and `!include` mechanism. A
 packages:
   wifi:     !include esphome-modular-lvgl-buttons/common/wifi.yaml
   theme:    !include esphome-modular-lvgl-buttons/common/theme/index.yaml
-  hardware: !include esphome-modular-lvgl-buttons/hardware/guition-esp32-s3-4848s040.yaml
+  hardware: !include
+    file: esphome-modular-lvgl-buttons/hardware/guition-esp32-s3-4848s040.yaml
+    vars:
+      rotation: "0"  # set screen rotation 0, 90, 180, 270
 
   kitchen_light: !include
     file: esphome-modular-lvgl-buttons/ui/light/remote.yaml
@@ -115,9 +118,9 @@ Pages use LVGL's grid layout. The shorthand `layout: 3x3` creates a 3-column × 
 
 ---
 
-## The Component Architecture (New System)
+## The Component Architecture
 
-This fork replaces the upstream flat button files with a structured, scalable system. Each entity type lives entirely within its own subfolder under `ui/`. See [CLAUDE.md](CLAUDE.md) for the full contract and coding rules.
+Each entity type lives entirely within its own subfolder under `ui/`. See [CLAUDE.md](CLAUDE.md) for the full contract and coding rules.
 
 ### Structure Per Entity Type
 
@@ -157,25 +160,22 @@ This is enforced via the **abstract script contract**: each button file implemen
 
 ---
 
-## Legacy Button Components
+## Hardware (`hardware/`)
 
-The upstream flat button files are present in the repository with a `_legacy` suffix and are considered **superseded**. New devices should use the `ui/` components. These files are not maintained as part of this fork.
+Each file is a self-contained device config providing display driver, touch controller, backlight PWM, I2C bus, PSRAM, and framework settings. Included as a single package with a `rotation` variable:
 
-| Legacy file | Replacement |
-|---|---|
-| `buttons/switch_button_legacy.yaml` | `ui/switch/local.yaml` or `ui/switch/remote.yaml` |
-| `buttons/sensor_button_legacy.yaml` | `ui/sensor/local.yaml` or `ui/sensor/remote.yaml` |
-| `buttons/dimmer_light_button.yaml` + `pages/light_color.yaml` | `ui/light/local.yaml` or `ui/light/remote.yaml` (single include) |
-| `buttons/cover_button_legacy.yaml` | — (not planned) |
-| `buttons/scene_button_legacy.yaml` | — (not planned) |
-| `buttons/page_button_legacy.yaml` | — (not planned) |
-| `buttons/time_button_legacy.yaml` | — (not planned) |
+```yaml
+hardware: !include
+  file: esphome-modular-lvgl-buttons/hardware/waveshare-esp32-p4-wifi6-touch-lcd-10.1.yaml
+  vars:
+    rotation: "270"  # set screen rotation 0, 90, 180, 270
+```
 
----
+Rotation is handled by LVGL (not the display driver). Touch transforms in each hardware file are calibrated for the native (0°) orientation, and LVGL rotation handles the rest. Provides `$screen_width` and `$screen_height` substitutions used by OTA and other components.
 
-## Infrastructure (Unchanged from Upstream)
+Supported families: Guition, Sunton, Waveshare, Elecrow, LilyGo, Espressif dev kits, and SDL desktop simulation.
 
-These modules are reused as-is and not modified by this fork.
+## Infrastructure
 
 ### Common (`common/`)
 
@@ -225,20 +225,6 @@ substitutions:
 ```
 
 Component files always use these substitution vars — never hardcoded colors or font IDs.
-
-### Hardware (`hardware/`)
-
-Each file is a self-contained device config providing display driver, touch controller, backlight PWM, I2C bus, PSRAM, and framework settings. Included as a single package. Provides `$screen_width` and `$screen_height` substitutions used by OTA and other components.
-
-Supported families: Guition, Sunton, Waveshare, Elecrow, LilyGo, Espressif dev kits, and SDL desktop simulation.
-
-### Common (`common/`) — additional files
-
-| File | Purpose |
-|---|---|
-| `sensors_base.yaml` | WiFi signal, CPU temp, restart/factory-reset buttons |
-| `sensors_base_sdl.yaml` | Minimal variant for SDL desktop testing |
-| `swipe_navigation.yaml` | Adds swipe gestures to any page via `<<: !include` |
 
 ### UI Feature Modules (`ui/`)
 
