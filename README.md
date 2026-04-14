@@ -6,7 +6,7 @@
 
 A modular component library for building touchscreen smart home control panels using [ESPHome](https://esphome.io/) + [LVGL](https://lvgl.io/) on cheap ESP32 displays.
 
-This is a fork of [agillis/esphome-modular-lvgl-buttons](https://github.com/agillis/esphome-modular-lvgl-buttons) with a redesigned component architecture. See [ARCHITECTURE.md](ARCHITECTURE.md) for the full design rationale.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the full design rationale.
 
 ---
 
