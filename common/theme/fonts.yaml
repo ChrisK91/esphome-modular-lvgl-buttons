@@ -1,5 +1,5 @@
 ---
-# To support additional glyphs you can define the glyphsets-subsitution
+# To support additional glyphs you can define the glyphsets-substitution
 # in your main .yaml-file
 #
 # See also: https://esphome.io/components/font/#configuration-variables
