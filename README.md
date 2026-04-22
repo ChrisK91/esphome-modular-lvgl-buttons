@@ -38,7 +38,7 @@ pip install cairosvg
 
 ```bash
 cd /config   # or wherever your ESPHome configs live
-git clone https://github.com/iezhkv/esphome-modular-lvgl-buttons.git
+[git clone https://github.com/iezhkv/esphome-modular-lvgl-buttons.git](https://github.com/agillis/esphome-modular-lvgl-buttons.git)
 ```
 
 ### 3. Set up secrets
@@ -53,11 +53,6 @@ latitude: 0.0000
 longitude: 0.0000
 api_encryption_key: "your-base64-key"
 ota_password: "your-ota-password"
-```
-
-Generate an API key:
-```bash
-python3 -c "import secrets,base64; print(base64.b64encode(secrets.token_bytes(32)).decode())"
 ```
 
 ### 4. Create your device config
