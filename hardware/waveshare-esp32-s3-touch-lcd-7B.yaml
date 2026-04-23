@@ -67,11 +67,12 @@ light:
     icon: mdi:lightbulb-on
     id: display_backlight
     restore_mode: ALWAYS_ON
+    on_turn_on:
+      lvgl.resume:
     default_transition_length: 250ms
     on_turn_on:
       then:
         - switch.turn_on: exio2
-        - lvgl.resume:
     on_turn_off:
       then:
         - switch.turn_off: exio2
