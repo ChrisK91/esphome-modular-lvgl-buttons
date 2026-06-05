@@ -1,5 +1,5 @@
 ---
-# Popup system — shared infrastructure
+# Popup system — shared scrim, close script, and shared color-picker assets.
 #
 # Architecture
 # ------------
@@ -24,8 +24,25 @@
 #   - lvgl.widget.show: popup_scrim
 #   - lvgl.widget.show: popup_<name>
 #
-# Z-order note: widgets render in include order. Because this file is
-# included BEFORE any popup file, the scrim renders below all popups.
+# Z-order note: widgets render in include order. This file must be included
+# BEFORE any popup-consuming file so the scrim renders below all popups.
+#
+# Shared assets defined here:
+#   - hue_ring_img / kelvin_ring_img : SVG rings reused by per-instance light
+#     color popups (see ui/light/remote.yaml and ui/light/local.yaml).
+
+image:
+  rgb565:
+    alpha_channel:
+      - file: 'esphome-modular-lvgl-buttons/assets/images/hue_ring.svg'
+        id: hue_ring_img
+        # ESPHome rasterizes the SVG via resvg_py at compile time to this size.
+        # Bump both numbers (and the matching arc widths in consumers) to
+        # render at higher resolution.
+        resize: 300x300
+      - file: 'esphome-modular-lvgl-buttons/assets/images/kelvin_ring.svg'
+        id: kelvin_ring_img
+        resize: 300x300
 
 script:
   # Extended by each popup file to hide its own widget.
@@ -36,6 +53,7 @@ script:
 lvgl:
   top_layer:
     widgets:
+      # Scrim MUST be first so all popups render above it.
       - obj:
           id: popup_scrim
           hidden: true
